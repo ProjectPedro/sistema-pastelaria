@@ -3,7 +3,7 @@ package com.pedro.ambarpastelaria.model;
 import jakarta.persistence.*;
 
 @Entity
-public class produto {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

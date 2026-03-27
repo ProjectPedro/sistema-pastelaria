@@ -16,9 +16,9 @@ public class ProdutoController
     private ProdutoRepository repository;
 
     @PostMapping
-    public Produto salvar(@RequestBody Produto p)
+    public Produto salvar(@RequestBody Produto produto)
     {
-        return repository.save(p);
+        return repository.save(produto);
     }
     @GetMapping
     public List<Produto> listar()
@@ -29,5 +29,27 @@ public class ProdutoController
     public Produto buscarPorId(@PathVariable Long id)
     {
         return repository.findById(id).orElse(null);
+    }
+
+    /*Metodo para atualizar produto. */
+    @PutMapping("/{id}")
+    public Produto atualizar(@PathVariable Long id, @RequestBody Produto produtoAtualizado)
+    {
+        Produto produto = repository.findById(id).orElse(null);
+
+        if(produto == null){
+            return null;
+        }
+        produto.setNome(produtoAtualizado.getNome());
+        produto.setPreco(produtoAtualizado.getPreco());
+        produto.setDescricao(produtoAtualizado.getDescricao());
+        produto.setCategoria(produtoAtualizado.getCategoria());
+
+        return repository.save(produto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id){
+        repository.deleteById(id);
     }
 }

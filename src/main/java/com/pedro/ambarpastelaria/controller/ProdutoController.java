@@ -4,6 +4,7 @@ import com.pedro.ambarpastelaria.model.Produto;
 import com.pedro.ambarpastelaria.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ProdutoController
     private ProdutoRepository repository;
 
     @PostMapping
-    public Produto salvar(@RequestBody Produto produto)
+    public Produto salvar(@RequestBody @Valid Produto produto)
     {
         return repository.save(produto);
     }

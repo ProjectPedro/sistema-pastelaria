@@ -1,6 +1,9 @@
 package com.pedro.ambarpastelaria.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Produto {
@@ -8,7 +11,10 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String nome;
+    @NotNull
+    @Positive
     private double preco;
     private String descricao;
     @Enumerated(EnumType.STRING)

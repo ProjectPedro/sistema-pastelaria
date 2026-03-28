@@ -21,6 +21,7 @@ public class ProdutoController
     private ProdutoDTO converterParaDTO(Produto produto) {
         ProdutoDTO dto = new ProdutoDTO();
 
+        dto.setId(produto.getId());
         dto.setNome(produto.getNome());
         dto.setPreco(produto.getPreco());
         dto.setDescricao(produto.getDescricao());
@@ -33,6 +34,7 @@ public class ProdutoController
     public ProdutoDTO salvar(@RequestBody @Valid ProdutoDTO dto)
     {
         Produto produto = new Produto();
+
 
         produto.setNome(dto.getNome());
         produto.setPreco(dto.getPreco());

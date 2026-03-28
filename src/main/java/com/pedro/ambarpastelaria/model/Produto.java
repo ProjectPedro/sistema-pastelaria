@@ -11,10 +11,10 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Nome não pode estar vazio.")
     private String nome;
-    @NotNull
-    @Positive
+    @NotNull(message = "Preço é obrigatório")
+    @Positive(message = "Preço deve ser maior que zero)")
     private double preco;
     private String descricao;
     @Enumerated(EnumType.STRING)

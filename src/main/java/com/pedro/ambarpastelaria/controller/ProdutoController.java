@@ -45,4 +45,8 @@ public class ProdutoController
     public void deletar(@PathVariable Long id){
         service.deletar(id);
     }
+    @PatchMapping("/{id}/disponibilidade")
+    public ProdutoDTO alterarDisponibilidade(@PathVariable Long id, @RequestParam boolean disponivel){
+        return service.alterarDisponibilidade(id, disponivel);
+    }
 }

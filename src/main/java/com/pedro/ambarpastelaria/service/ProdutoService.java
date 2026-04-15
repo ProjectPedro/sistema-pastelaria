@@ -17,11 +17,13 @@ public class ProdutoService{
     private ProdutoDTO converterParaDTO(Produto produto) {
         ProdutoDTO dto = new ProdutoDTO();
 
+
         dto.setId(produto.getId());
         dto.setNome(produto.getNome());
         dto.setPreco(produto.getPreco());
         dto.setDescricao(produto.getDescricao());
         dto.setCategoria(produto.getCategoria().name());
+        dto.setDisponivel(produto.isDisponivel());
 
         return dto;
     }
@@ -32,6 +34,7 @@ public class ProdutoService{
         produto.setPreco(dto.getPreco());
         produto.setDescricao(dto.getDescricao());
         produto.setCategoria(Categoria.valueOf(dto.getCategoria().toUpperCase()));
+        produto.setDisponivel(dto.isDisponivel());
         return produto;
     }
 
@@ -42,6 +45,13 @@ public class ProdutoService{
 
     public List<ProdutoDTO> listar() {
         return repository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
+    }
+    public List<ProdutoDTO>listarPorCategoria(String categoria){
+        Categoria cat = Categoria.valueOf(categoria.toUpperCase());
+        return repository.findByCategoria(cat)
                 .stream()
                 .map(this::converterParaDTO)
                 .toList();
@@ -57,6 +67,7 @@ public class ProdutoService{
         produto.setPreco(dto.getPreco());
         produto.setDescricao(dto.getDescricao());
         produto.setCategoria(Categoria.valueOf(dto.getCategoria().toUpperCase()));
+        produto.setDisponivel(dto.isDisponivel());
         return converterParaDTO(repository.save(produto));
     }
     public void deletar(Long id){
@@ -64,5 +75,11 @@ public class ProdutoService{
             throw new ProdutoNaoEncontradoException(id);
         }
         repository.deleteById(id);
+    }
+    public ProdutoDTO alterarDisponibilidade(Long id, boolean disponivel){
+        Produto produto = repository.findById(id)
+                .orElseThrow(()-> new ProdutoNaoEncontradoException(id));
+        produto.setDisponivel(disponivel);
+        return converterParaDTO(repository.save(produto));
     }
 }

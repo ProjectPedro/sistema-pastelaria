@@ -14,6 +14,7 @@ public class ProdutoDTO {
     private String descricao;
     @NotBlank(message = "Categoria é obrigatória")
     private String categoria;
+    private boolean disponivel = true;
 
 
     public Long getId() {
@@ -48,5 +49,12 @@ public class ProdutoDTO {
     }
     public void setCategoria(String categoria){
         this.categoria = categoria;
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+    public void setDisponivel(boolean disponivel){
+        this.disponivel = disponivel;
     }
 }

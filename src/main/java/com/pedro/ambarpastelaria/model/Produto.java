@@ -19,6 +19,8 @@ public class Produto {
     private String descricao;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean disponivel = true;
 
     public Long getId(){
         return id;
@@ -46,5 +48,12 @@ public class Produto {
     }
     public void setPreco(double preco){
         this.preco = preco;
+    }
+
+    public Boolean isDisponivel(){
+        return disponivel;
+    }
+    public void setDisponivel(Boolean disponivel){
+        this.disponivel = disponivel;
     }
 }

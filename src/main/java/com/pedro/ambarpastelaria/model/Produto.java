@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Produto {
@@ -14,13 +15,14 @@ public class Produto {
     @NotBlank(message = "Nome não pode estar vazio.")
     private String nome;
     @NotNull(message = "Preço é obrigatório")
-    @Positive(message = "Preço deve ser maior que zero)")
+    @Positive(message = "Preço deve ser maior que zero")
     private double preco;
+    @Size(max = 255)
     private String descricao;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    private Boolean disponivel = true;
+    @Column(nullable = false)
+    private boolean disponivel = true;
 
     public Long getId(){
         return id;
@@ -50,10 +52,10 @@ public class Produto {
         this.preco = preco;
     }
 
-    public Boolean isDisponivel(){
+    public boolean isDisponivel(){
         return disponivel;
     }
-    public void setDisponivel(Boolean disponivel){
+    public void setDisponivel(boolean disponivel){
         this.disponivel = disponivel;
     }
 }

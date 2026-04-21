@@ -31,7 +31,7 @@ public class PedidoController {
         return pedidoService.buscarPorId(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Pedido atualizar(@PathVariable Long id, @RequestBody Pedido pedido)
     {
         return pedidoService.atualizar(id, pedido);

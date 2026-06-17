@@ -1,6 +1,7 @@
 package com.pedro.ambarpastelaria.service;
 
 import com.pedro.ambarpastelaria.exception.ProdutoNaoEncontradoException;
+import com.pedro.ambarpastelaria.exception.PedidoNaoEncontradoException;
 import com.pedro.ambarpastelaria.model.Pedido;
 import com.pedro.ambarpastelaria.repository.PedidoRepository;
 import com.pedro.ambarpastelaria.model.StatusPedido;
@@ -29,7 +30,7 @@ public class PedidoService {
 
     public Pedido buscarPorId(Long id)
     {
-        return repository.findById(id).orElseThrow(()->new ProdutoNaoEncontradoException(id));
+        return repository.findById(id).orElseThrow(()->new PedidoNaoEncontradoException(id));
     }
 
     public Pedido atualizar(Long id, Pedido pedidoAtualizado)

@@ -1,8 +1,8 @@
 package com.pedro.ambarpastelaria.service;
 
 import com.pedro.ambarpastelaria.DTO.ItemPedidoDTO;
-import com.pedro.ambarpastelaria.DTO.PedidoResponseDTO;
 import com.pedro.ambarpastelaria.DTO.PedidoRequestDTO;
+import com.pedro.ambarpastelaria.DTO.PedidoResponseDTO;
 import com.pedro.ambarpastelaria.exception.ProdutoNaoEncontradoException;
 import com.pedro.ambarpastelaria.exception.PedidoNaoEncontradoException;
 import com.pedro.ambarpastelaria.model.ItemPedido;
@@ -94,30 +94,37 @@ public class PedidoService {
         return converterParaDTO(pedidoSalvo);
     }
 
-    public List<Pedido>listar()
+    public List<PedidoResponseDTO> listar()
     {
-        return repository.findAll();
+        return repository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
-    public Pedido buscarPorId(Long id)
+    public PedidoResponseDTO buscarPorId(Long id)
     {
-        return repository.findById(id).orElseThrow(()->new PedidoNaoEncontradoException(id));
+        Pedido pedido = repository.findById(id)
+                .orElseThrow(()->new PedidoNaoEncontradoException(id));
+        return converterParaDTO(pedido);
     }
 
-    public Pedido atualizar(Long id, Pedido pedidoAtualizado)
+    public PedidoResponseDTO atualizar(Long id, PedidoRequestDTO request)
     {
-        Pedido pedido = buscarPorId(id);
+        Pedido pedido = repository.findById(id)
+                        .orElseThrow(()->new PedidoNaoEncontradoException(id));
 
-        pedido.setObservacao(pedidoAtualizado.getObservacao());
-        pedido.setStatus(pedidoAtualizado.getStatus());
+        pedido.setObservacao(request.getObservacao());
+        return converterParaDTO(repository.save(pedido));
 
-        return repository.save(pedido);
     }
 
     public void deletar(Long id)
     {
         if(!repository.existsById(id))
-        {throw new ProdutoNaoEncontradoException(id);}
+        {
+            throw new PedidoNaoEncontradoException(id);
+        }
         repository.deleteById(id);
     }
 

@@ -1,9 +1,11 @@
 package com.pedro.ambarpastelaria.controller;
 
-import com.pedro.ambarpastelaria.model.Pedido;
+import com.pedro.ambarpastelaria.DTO.PedidoRequestDTO;
+import com.pedro.ambarpastelaria.DTO.PedidoResponseDTO;
 import com.pedro.ambarpastelaria.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,27 +16,28 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public Pedido salvar(@RequestBody Pedido pedido)
+    public PedidoResponseDTO salvar(@RequestBody @Valid PedidoRequestDTO dto)
     {
-        return pedidoService.salvar(pedido);
+        return pedidoService.salvar(dto);
     }
 
     @GetMapping
-    public List<Pedido> listar()
+    public List<PedidoResponseDTO> listar()
     {
         return pedidoService.listar();
     }
 
     @GetMapping("/{id}")
-    public Pedido buscarPorId(@PathVariable Long id)
+    public PedidoResponseDTO buscarPorId(@PathVariable Long id)
     {
         return pedidoService.buscarPorId(id);
     }
 
     @PutMapping("/{id}")
-    public Pedido atualizar(@PathVariable Long id, @RequestBody Pedido pedido)
+    public PedidoResponseDTO atualizar
+            (@PathVariable Long id, @RequestBody @Valid PedidoRequestDTO dto)
     {
-        return pedidoService.atualizar(id, pedido);
+        return pedidoService.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")

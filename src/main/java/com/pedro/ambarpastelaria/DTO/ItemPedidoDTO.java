@@ -1,9 +1,14 @@
 package com.pedro.ambarpastelaria.DTO;
 
 import java.util.List;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class ItemPedidoDTO {
+    @NotNull(message = "Produto é obrigatório")
     private Long produtoId;
+    @NotNull(message = "Quantidade é obrigatório")
+    @Positive(message = "Quantidade deve ser maior que Zero")
     private Integer quantidade;
     private String observacao;
 

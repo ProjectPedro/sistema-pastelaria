@@ -18,7 +18,10 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
     private LocalDateTime dataPedido;
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(
+            mappedBy = "pedido",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<ItemPedido> itens = new ArrayList<>();
 
 

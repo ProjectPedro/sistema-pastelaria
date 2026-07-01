@@ -3,6 +3,7 @@ package com.pedro.ambarpastelaria.service;
 import com.pedro.ambarpastelaria.DTO.PagamentoRequestDTO;
 import com.pedro.ambarpastelaria.DTO.PagamentoResponseDTO;
 import com.pedro.ambarpastelaria.exception.PedidoNaoEncontradoException;
+import com.pedro.ambarpastelaria.exception.PagamentoException;
 import com.pedro.ambarpastelaria.model.Pagamento;
 import com.pedro.ambarpastelaria.model.Pedido;
 import com.pedro.ambarpastelaria.model.StatusPedido;
@@ -38,7 +39,7 @@ public class PagamentoService {
                 .orElseThrow(() -> new PedidoNaoEncontradoException(request.getPedidoId()));
 
         if (pagamentoRepository.findByPedidoId(pedido.getId()).isPresent()) {
-            throw new RuntimeException("Esse Pedido já foi pago!");
+            throw new PagamentoException("Esse Pedido já foi pago!");
         }
 
         Pagamento pagamento = new Pagamento();

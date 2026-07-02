@@ -1,5 +1,6 @@
 package com.pedro.ambarpastelaria.controller;
 
+import com.pedro.ambarpastelaria.model.StatusPedido;
 import com.pedro.ambarpastelaria.DTO.PedidoRequestDTO;
 import com.pedro.ambarpastelaria.DTO.PedidoResponseDTO;
 import com.pedro.ambarpastelaria.service.PedidoService;
@@ -38,6 +39,12 @@ public class PedidoController {
             (@PathVariable Long id, @RequestBody @Valid PedidoRequestDTO dto)
     {
         return pedidoService.atualizar(id, dto);
+    }
+
+    @PatchMapping("/{id}/status")
+    public PedidoResponseDTO atualizarStatus(@PathVariable Long id,@RequestParam StatusPedido status)
+    {
+        return pedidoService.atualizarStatus(id, status);
     }
 
     @DeleteMapping("/{id}")

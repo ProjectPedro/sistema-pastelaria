@@ -3,6 +3,7 @@ package com.pedro.ambarpastelaria.service;
 import com.pedro.ambarpastelaria.DTO.ItemPedidoDTO;
 import com.pedro.ambarpastelaria.DTO.PedidoRequestDTO;
 import com.pedro.ambarpastelaria.DTO.PedidoResponseDTO;
+import com.pedro.ambarpastelaria.exception.PedidoStatusException;
 import com.pedro.ambarpastelaria.exception.ProdutoNaoEncontradoException;
 import com.pedro.ambarpastelaria.exception.PedidoNaoEncontradoException;
 import com.pedro.ambarpastelaria.model.ItemPedido;
@@ -117,6 +118,18 @@ public class PedidoService {
         pedido.setObservacao(request.getObservacao());
         return converterParaDTO(repository.save(pedido));
 
+    }
+
+    public PedidoResponseDTO atualizarStatus(Long id, StatusPedido novoStatus)
+    {
+        Pedido pedido = repository.findById(id)
+                .orElseThrow(()-> new PedidoStatusException(id));
+
+        if(pedido.getStatus() == StatusPedido.FINALIZADO || pedido.getStatus() == StatusPedido.CANCELADO){
+            throw new PedidoStatusException(id);
+        }
+        pedido.setStatus(novoStatus);
+        return converterParaDTO(repository.save(pedido));
     }
 
     public void deletar(Long id)

@@ -13,6 +13,6 @@ public class PagamentoRequestDTO {
     public Long getPedidoId(){return pedidoId;}
     public FormaPagamento getFormaPagamento(){return formaPagamento;}
 
-    public void setPedidoId(){this.pedidoId = pedidoId;}
-    public void setFormaPagamento(){this.formaPagamento = formaPagamento;}
+    public void setPedidoId(Long pedidoId){this.pedidoId = pedidoId;}
+    public void setFormaPagamento(FormaPagamento formaPagamento){this.formaPagamento = formaPagamento;}
 }

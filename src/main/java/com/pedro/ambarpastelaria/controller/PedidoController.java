@@ -22,6 +22,11 @@ public class PedidoController {
         return pedidoService.salvar(dto);
     }
 
+    @PostMapping("/{id}/repetir")
+    public PedidoResponseDTO repetirPedido(@PathVariable Long id)
+    {
+        return pedidoService.repetirPedido(id);
+    }
     @GetMapping
     public List<PedidoResponseDTO> listar()
     {

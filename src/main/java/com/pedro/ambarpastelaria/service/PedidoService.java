@@ -132,6 +132,40 @@ public class PedidoService {
         return converterParaDTO(repository.save(pedido));
     }
 
+    public PedidoResponseDTO repetirPedido(Long id)
+    {
+        Pedido pedidoOriginal = repository.findById(id)
+                .orElseThrow(()->new PedidoNaoEncontradoException(id));
+
+        Pedido novoPedido = new Pedido();
+        novoPedido.setStatus(StatusPedido.ABERTO);
+        novoPedido.setDataPedido(LocalDateTime.now());
+        novoPedido.setObservacao(pedidoOriginal.getObservacao());
+        novoPedido.setTotal(0.0);
+
+        Pedido novoPedidoSalvo = repository.save(novoPedido);
+
+        for(ItemPedido itemOriginal : pedidoOriginal.getItens())
+        {
+            Produto produto = produtoRepository.findById(itemOriginal.getProduto().getId())
+                    .orElseThrow(() -> new ProdutoNaoEncontradoException
+                            (itemOriginal.getProduto().getId()));
+
+            ItemPedido novoItem = new ItemPedido();
+            novoItem.setPedido(novoPedidoSalvo);
+            novoItem.setProduto(produto);
+            novoItem.setQuantidade(itemOriginal.getQuantidade());
+            novoItem.setPrecoUnitario(produto.getPreco());
+
+            itemPedidoRepository.save(novoItem);
+            novoPedidoSalvo.getItens().add(novoItem);
+        }
+        novoPedidoSalvo.setTotal(calcularTotal(novoPedidoSalvo));
+        repository.save(novoPedidoSalvo);
+
+        return converterParaDTO(novoPedidoSalvo);
+    }
+
     public void deletar(Long id)
     {
         if(!repository.existsById(id))
